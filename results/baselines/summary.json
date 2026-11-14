@@ -1,0 +1,26 @@
+{
+  "gym": {
+    "random": {
+      "mean_return": -189.60665758641582,
+      "success_rate": 0.0,
+      "episodes": 100
+    },
+    "heuristic": {
+      "mean_return": 234.69639339005136,
+      "success_rate": 0.92,
+      "episodes": 100
+    }
+  },
+  "rust": {
+    "random": {
+      "mean_return": -153.42769119672477,
+      "success_rate": 0.0,
+      "episodes": 100
+    },
+    "heuristic": {
+      "mean_return": 190.79187500122936,
+      "success_rate": 1.0,
+      "episodes": 100
+    }
+  }
+}

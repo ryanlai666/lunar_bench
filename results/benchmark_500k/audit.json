@@ -1,0 +1,173 @@
+{
+  "passed": true,
+  "expected_runs": 18,
+  "completed_checked": 18,
+  "pending": [],
+  "errors": [],
+  "corrections": [
+    {
+      "run": "gym_ppo_seed0",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    },
+    {
+      "run": "gym_ppo_seed1",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    },
+    {
+      "run": "gym_ppo_seed2",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    },
+    {
+      "run": "rust_ppo_seed0",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    },
+    {
+      "run": "rust_ppo_seed1",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    },
+    {
+      "run": "rust_ppo_seed2",
+      "old_count": 489,
+      "actual_adam_steps": 15628,
+      "applied": true
+    }
+  ],
+  "runs": [
+    {
+      "run": "gym_ppo_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_ppo_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_ppo_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_a2c_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_a2c_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_a2c_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_ddqn_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_ddqn_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_ddqn_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ppo_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ppo_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ppo_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 15628,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_a2c_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_a2c_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_a2c_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 1954,
+      "update_calls": 1954,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ddqn_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ddqn_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_ddqn_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    }
+  ]
+}

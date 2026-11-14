@@ -1,0 +1,24 @@
+# vendored third-party packages and build outputs (recreate as in README)
+deps/
+vendor/
+native/target/
+__pycache__/
+*.py[cod]
+
+# model checkpoints and raw training stdout (summaries, episode CSVs and learning logs are kept)
+*.npz
+*.log
+
+# smoke tests and scratch timing runs (only the timing summary is published)
+results/smoke_*/
+results/throughput_correctness_smoke.json
+results/parallel_timing/*/
+
+# local notes, secrets, editor settings
+notes/
+.env
+.env.*
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

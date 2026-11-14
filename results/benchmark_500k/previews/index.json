@@ -1,0 +1,31 @@
+{
+  "episode_seed": 2000000000,
+  "training_seed": 0,
+  "format": "gif",
+  "previews": [
+    {
+      "method": "ppo",
+      "return_": -44.48676898144951,
+      "length": 1000,
+      "success": false,
+      "artifact": "lunar_bench\\results\\benchmark_500k\\previews\\gym_ppo_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    },
+    {
+      "method": "a2c",
+      "return_": -3945.546203009755,
+      "length": 950,
+      "success": false,
+      "artifact": "lunar_bench\\results\\benchmark_500k\\previews\\gym_a2c_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    },
+    {
+      "method": "ddqn",
+      "return_": 229.19330050567407,
+      "length": 302,
+      "success": true,
+      "artifact": "lunar_bench\\results\\benchmark_500k\\previews\\gym_ddqn_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    }
+  ]
+}

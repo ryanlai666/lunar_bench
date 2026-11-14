@@ -1,0 +1,39 @@
+RustLander-v0 model and limitations
+=================================
+This is a deterministic custom rigid-point landing surrogate implemented in Rust,
+NOT a port of Gymnasium LunarLander-v3 or of Box2D. Do not compare its reward
+numbers or solved threshold directly with Gymnasium. No Box2D fidelity is claimed.
+
+Observations: x, y above flat pad, vx, vy, angle, angular velocity, two leg flags.
+Actions: 0 coast, 1 positive rotation torque, 2 main thrust, 3 negative torque.
+Initial x is uniform [-.25,.25], height 1.2; random vx [-.15,.15], vy/angle/omega
+[-.1,.1]. SplitMix64 generates the initial state; subsequent transitions are
+fully deterministic. Units are normalized model units, not Gymnasium units.
+
+Integration: semi-implicit Euler, dt=.02; gravity=-1.5; main thrust=3.2;
+side torque=+/-4; lateral side acceleration=-/+0.08; linear damping=.999 per
+step and angular damping=.98. No terrain, wind, articulated legs, collision
+solver, contact impulses, engine dispersion, fuel limits or Box2D sleep state.
+
+Touchdown at y<=0 succeeds iff abs(x)<=.20, abs(vx)<=.25, abs(vy)<=.30,
+abs(angle)<=.20 and abs(omega)<=.40. Both leg flags then turn on. Touchdown
+terminates immediately; there is no simulated settling period. Other touchdown
+is a crash. Leaving abs(x)>1, y>2.5 or abs(angle)>pi also terminates as failure.
+A time limit (default 1000 steps) truncates and is not a success or crash.
+
+Reward is the difference in potential (-100*distance to origin -100*speed
+-100*abs(angle) +10*each leg contact), minus .3 main-engine or .03 side-engine
+cost. Terminal reward REPLACES the shaping reward with +100 success or -100
+failure. Potential is initialized on reset. Reward is not clipped or normalized.
+
+Independent native batch environments use separate deterministic state. Batch
+steps reject all actions atomically if any action is invalid or any member is
+already ended. Python requires explicit resets and validates shapes and types.
+C ABI ownership: rl_create/rl_destroy; rl_reset writes 12 floats; rl_step writes
+count*12 floats. Buffers and handles must be valid, nonoverlapping and owned by
+the caller; C ABI is not safe against arbitrary invalid pointers.
+
+Build from repository root using lunar_bench/build_native.ps1. Native tests cover
+replay, seed variation, action validation, termination/truncation, landing/crash,
+thrust direction and finite rollouts. benchmark_native.py writes real scalar,
+batched FFI and in-Rust throughput with transitions and elapsed seconds.

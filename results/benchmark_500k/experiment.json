@@ -1,0 +1,21 @@
+{
+  "steps_per_run": 500000,
+  "jobs": 6,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "backends": [
+    "gym",
+    "rust"
+  ],
+  "logical_cpus": 20,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+  "threads_per_process": 1,
+  "total_wall_seconds": 649.1742553999939,
+  "completed": 18,
+  "failures": 0
+}

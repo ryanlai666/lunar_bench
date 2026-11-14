@@ -1,0 +1,32 @@
+{
+  "method": "ddqn",
+  "backend": "rust",
+  "seed": 1,
+  "steps": 500000,
+  "envs": 8,
+  "eval_episodes": 100,
+  "report_every": 50000,
+  "output": "lunar_bench\\results\\benchmark_500k\\rust_ddqn_seed1",
+  "environment": "RustLander-v0",
+  "python": "3.13.5",
+  "numpy": "2.1.3",
+  "threads_per_process": 1,
+  "training_seed_range": "[0,1000000000)",
+  "validation_seed_start": 1000000000,
+  "test_seed_start": 2000000000,
+  "checkpoint_selection": "final fixed-budget checkpoint",
+  "reward_scale_for_optimization": 1.0,
+  "network": "two ReLU hidden layers, 64 units each",
+  "model_config": {
+    "obs_size": 8,
+    "actions": 4,
+    "hidden": 64,
+    "seed": 1,
+    "lr": 0.0003,
+    "gamma": 0.99,
+    "capacity": 50000,
+    "target_interval": 250
+  },
+  "algorithm_source_sha256": "5ee97d6071969a9a6aa797a1f45aa1902131f834f218d6b049231f8e0e574745",
+  "simulator_sha256": "b91301da18b76c674db1eabd49d0e9851f892c8e8e130f7c128acc240b0bc734"
+}

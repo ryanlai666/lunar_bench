@@ -1,0 +1,198 @@
+{
+  "note": "Non-equivalent workloads: Gymnasium LunarLander-v3 uses Box2D collision/leg dynamics; RustLander-v0 is a custom flat-ground point-body surrogate. No language-only or faithful-port speedup claim.",
+  "timing_scope": "Step calls, reward checksum, explicit episode resets, and close; excludes action generation, initial creation/reset, and warmup. Rust batch includes ended-index scan and per-environment resets. Rendering disabled.",
+  "load_note": "Run after all training workers have exited; OS/background load is uncontrolled.",
+  "batch_size": 128,
+  "records": [
+    {
+      "steps": 100000,
+      "seconds": 10.841036199999508,
+      "steps_per_second": 9224.21050489662,
+      "episodes": 1057,
+      "return_checksum": -203846.09188678532,
+      "mode": "gymnasium_box2d_scalar",
+      "repeat": 0,
+      "seed": 100000
+    },
+    {
+      "steps": 100000,
+      "seconds": 9.0603007000027,
+      "steps_per_second": 11037.161272138595,
+      "episodes": 1048,
+      "return_checksum": -160086.4818009045,
+      "mode": "rust_surrogate_scalar",
+      "repeat": 0,
+      "seed": 100000
+    },
+    {
+      "steps": 100096,
+      "seconds": 0.09667080000508577,
+      "steps_per_second": 1035431.5883879521,
+      "episodes": 993,
+      "return_checksum": -156404.6966896057,
+      "mode": "rust_surrogate_batch",
+      "repeat": 0,
+      "seed": 100000
+    },
+    {
+      "steps": 100000,
+      "seconds": 9.61139479999838,
+      "steps_per_second": 10404.31717569409,
+      "episodes": 1057,
+      "return_checksum": -160059.39695263095,
+      "mode": "rust_surrogate_scalar",
+      "repeat": 1,
+      "seed": 200000
+    },
+    {
+      "steps": 100096,
+      "seconds": 0.15934759999800008,
+      "steps_per_second": 628161.3278220461,
+      "episodes": 992,
+      "return_checksum": -154252.38078975677,
+      "mode": "rust_surrogate_batch",
+      "repeat": 1,
+      "seed": 200000
+    },
+    {
+      "steps": 100000,
+      "seconds": 15.804044799995609,
+      "steps_per_second": 6327.494085566486,
+      "episodes": 1082,
+      "return_checksum": -197018.19076110495,
+      "mode": "gymnasium_box2d_scalar",
+      "repeat": 1,
+      "seed": 200000
+    },
+    {
+      "steps": 100096,
+      "seconds": 0.1695746000041254,
+      "steps_per_second": 590277.0815768687,
+      "episodes": 990,
+      "return_checksum": -153171.34424328804,
+      "mode": "rust_surrogate_batch",
+      "repeat": 2,
+      "seed": 300000
+    },
+    {
+      "steps": 100000,
+      "seconds": 18.055704099999275,
+      "steps_per_second": 5538.415973487515,
+      "episodes": 1093,
+      "return_checksum": -200003.99395938055,
+      "mode": "gymnasium_box2d_scalar",
+      "repeat": 2,
+      "seed": 300000
+    },
+    {
+      "steps": 100000,
+      "seconds": 12.046097900005407,
+      "steps_per_second": 8301.44340765777,
+      "episodes": 1047,
+      "return_checksum": -161239.1329536084,
+      "mode": "rust_surrogate_scalar",
+      "repeat": 2,
+      "seed": 300000
+    },
+    {
+      "steps": 100000,
+      "seconds": 17.862255099986214,
+      "steps_per_second": 5598.3972594858515,
+      "episodes": 1088,
+      "return_checksum": -194706.8041850858,
+      "mode": "gymnasium_box2d_scalar",
+      "repeat": 3,
+      "seed": 400000
+    },
+    {
+      "steps": 100000,
+      "seconds": 14.174359399999958,
+      "steps_per_second": 7054.992552256033,
+      "episodes": 1055,
+      "return_checksum": -161335.53990914114,
+      "mode": "rust_surrogate_scalar",
+      "repeat": 3,
+      "seed": 400000
+    },
+    {
+      "steps": 100096,
+      "seconds": 0.16130259999772534,
+      "steps_per_second": 620547.9638977397,
+      "episodes": 1005,
+      "return_checksum": -157374.90167427063,
+      "mode": "rust_surrogate_batch",
+      "repeat": 3,
+      "seed": 400000
+    },
+    {
+      "steps": 100000,
+      "seconds": 14.683448099996895,
+      "steps_per_second": 6810.389447967685,
+      "episodes": 1051,
+      "return_checksum": -159779.8920631539,
+      "mode": "rust_surrogate_scalar",
+      "repeat": 4,
+      "seed": 500000
+    },
+    {
+      "steps": 100096,
+      "seconds": 0.1718033000070136,
+      "steps_per_second": 582619.7750329227,
+      "episodes": 994,
+      "return_checksum": -155364.5717329979,
+      "mode": "rust_surrogate_batch",
+      "repeat": 4,
+      "seed": 500000
+    },
+    {
+      "steps": 100000,
+      "seconds": 17.90704319998622,
+      "steps_per_second": 5584.394859787737,
+      "episodes": 1048,
+      "return_checksum": -194464.18606057236,
+      "mode": "gymnasium_box2d_scalar",
+      "repeat": 4,
+      "seed": 500000
+    }
+  ],
+  "summary": {
+    "gymnasium_box2d_scalar": {
+      "mean_steps_per_second": 6454.582536644843,
+      "median_steps_per_second": 5598.3972594858515,
+      "std_steps_per_second": 1582.4531233298242,
+      "min_steps_per_second": 5538.415973487515,
+      "max_steps_per_second": 9224.21050489662
+    },
+    "rust_surrogate_scalar": {
+      "mean_steps_per_second": 8721.660771142833,
+      "median_steps_per_second": 8301.44340765777,
+      "std_steps_per_second": 1923.55132509522,
+      "min_steps_per_second": 6810.389447967685,
+      "max_steps_per_second": 11037.161272138595
+    },
+    "rust_surrogate_batch": {
+      "mean_steps_per_second": 691407.5473435058,
+      "median_steps_per_second": 620547.9638977397,
+      "std_steps_per_second": 193284.67100166742,
+      "min_steps_per_second": 582619.7750329227,
+      "max_steps_per_second": 1035431.5883879521
+    }
+  },
+  "machine": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "logical_cpu_count": 20,
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+    "python_executable": "C:\\ProgramData\\anaconda3\\python.exe",
+    "numpy": "2.1.3",
+    "gymnasium": "1.2.3",
+    "thread_environment": {
+      "OMP_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "NUMEXPR_NUM_THREADS": null
+    }
+  },
+  "rust_library_sha256": "b91301da18b76c674db1eabd49d0e9851f892c8e8e130f7c128acc240b0bc734"
+}

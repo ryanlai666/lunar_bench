@@ -1,0 +1,108 @@
+{
+  "environment": "RustLander-v0",
+  "note": "Custom surrogate; modes use different action schedules. Native loop excludes FFI/NumPy overhead; scalar and batch include reset handling. Not a Box2D-equivalent acceleration result. Concurrent jobs can affect measurements.",
+  "python": "3.13.5",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "simulator_sha256": "b91301da18b76c674db1eabd49d0e9851f892c8e8e130f7c128acc240b0bc734",
+  "records": [
+    {
+      "mode": "scalar_ffi",
+      "steps": 100000,
+      "seconds": 4.741144300001906,
+      "steps_per_second": 21091.954530883988,
+      "episodes": 1060,
+      "checksum": -130524.78756448627,
+      "repeat": 0
+    },
+    {
+      "mode": "batch_128_ffi",
+      "steps": 100096,
+      "seconds": 0.055399500008206815,
+      "steps_per_second": 1806803.3102315345,
+      "episodes": 1535,
+      "checksum": -535937.2240982056,
+      "repeat": 0
+    },
+    {
+      "mode": "scalar_ffi",
+      "steps": 100000,
+      "seconds": 5.489493900007801,
+      "steps_per_second": 18216.615560836653,
+      "episodes": 1060,
+      "checksum": -130524.78756448627,
+      "repeat": 1
+    },
+    {
+      "mode": "batch_128_ffi",
+      "steps": 100096,
+      "seconds": 0.06681759998900816,
+      "steps_per_second": 1498048.4186272225,
+      "episodes": 1535,
+      "checksum": -535937.2240982056,
+      "repeat": 1
+    },
+    {
+      "mode": "scalar_ffi",
+      "steps": 100000,
+      "seconds": 5.628260400000727,
+      "steps_per_second": 17767.47927298941,
+      "episodes": 1060,
+      "checksum": -130524.78756448627,
+      "repeat": 2
+    },
+    {
+      "mode": "batch_128_ffi",
+      "steps": 100096,
+      "seconds": 0.12169899999571498,
+      "steps_per_second": 822488.2702694712,
+      "episodes": 1535,
+      "checksum": -535937.2240982056,
+      "repeat": 2
+    },
+    {
+      "environment": "RustLander-v0",
+      "steps": 10000000,
+      "seconds": 0.6454588,
+      "steps_per_second": 15492855.624557292,
+      "episodes": 106326,
+      "checksum": -13139922.44266042,
+      "mode": "native_loop",
+      "repeat": 0
+    },
+    {
+      "environment": "RustLander-v0",
+      "steps": 10000000,
+      "seconds": 0.5651293,
+      "steps_per_second": 17695065.536329474,
+      "episodes": 106326,
+      "checksum": -13139922.44266042,
+      "mode": "native_loop",
+      "repeat": 1
+    },
+    {
+      "environment": "RustLander-v0",
+      "steps": 10000000,
+      "seconds": 0.5736446,
+      "steps_per_second": 17432396.29554606,
+      "episodes": 106326,
+      "checksum": -13139922.44266042,
+      "mode": "native_loop",
+      "repeat": 2
+    }
+  ],
+  "summary": {
+    "scalar_ffi": {
+      "mean_steps_per_second": 19025.349788236683,
+      "std_steps_per_second": 1803.7661220387047
+    },
+    "batch_128_ffi": {
+      "mean_steps_per_second": 1375779.9997094094,
+      "std_steps_per_second": 503419.5061500656
+    },
+    "native_loop": {
+      "mean_steps_per_second": 16873439.152144272,
+      "std_steps_per_second": 1202812.0967120435
+    }
+  },
+  "load_status": "PRELIMINARY: measured while training jobs were being launched or running; not uncontended/isolated."
+}

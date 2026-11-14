@@ -1,0 +1,17 @@
+[package]
+name = "rust_lander"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "lander-throughput"
+path = "src/main.rs"
+
+[profile.release]
+lto = true
+codegen-units = 1

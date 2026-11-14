@@ -1,0 +1,9 @@
+{
+  "steps_per_run": 32768,
+  "runs_per_mode": 6,
+  "serial_seconds": 153.30002930000774,
+  "parallel_seconds": 32.4076281000016,
+  "measured_speedup": 4.7303686905738145,
+  "parameters_identical": true,
+  "note": "One matched timing pair, CPU NumPy/Gymnasium; includes startup and evaluation; no claim of universal scaling. Sequential measured first, cache/order effects possible."
+}
