@@ -10,12 +10,18 @@ import numpy as np
 def audit(directory, expected_runs=18, correct=True):
     directory=Path(directory)
     experiment=json.loads((directory/'experiment.json').read_text())
+    methods=experiment.get('methods',['ppo','a2c','ddqn'])   # older experiments have no method list
     expected=[f'{b}_{m}_seed{s}' for b in experiment['backends']
-              for m in ('ppo','a2c','ddqn') for s in experiment['seeds']]
+              for m in methods for s in experiment['seeds']]
     errors=[];pending=[];checked=[];corrections=[]
     if len(expected)!=expected_runs:
         errors.append(f'Expected {expected_runs} runs, protocol specifies {len(expected)}')
-    source_hash=hashlib.sha256(Path(__file__).with_name('agents.py').read_bytes()).hexdigest()
+    source_hashes={}
+    def source_hash(name):
+        if name not in ('agents.py','agents_extra.py'):raise ValueError(f'Unknown algorithm source {name}')
+        if name not in source_hashes:
+            source_hashes[name]=hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+        return source_hashes[name]
     for name in expected:
         run=directory/name
         required=['config.json','summary.json','final.npz','training.jsonl','test_episodes.csv']
@@ -28,7 +34,7 @@ def audit(directory, expected_runs=18, correct=True):
             budget=experiment['steps_per_run']
             assert cfg['steps']==summary['trained_steps']==budget, 'Transition budget mismatch'
             assert summary['config']==cfg, 'Summary and standalone configs differ'
-            assert cfg['algorithm_source_sha256']==source_hash, 'Algorithm source changed since run'
+            assert cfg['algorithm_source_sha256']==source_hash(cfg.get('algorithm_source','agents.py')), 'Algorithm source changed since run'
             for key in ('training_seconds','training_cpu_seconds','transitions_per_second','wall_seconds'):
                 assert np.isfinite(summary[key]) and summary[key]>0, f'Invalid {key}'
             last=None

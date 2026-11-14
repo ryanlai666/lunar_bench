@@ -9,8 +9,13 @@ from pathlib import Path
 import numpy as np
 
 LABELS={'gym':'Gymnasium LunarLander-v3 (Box2D)', 'rust':'RustLander-v0 (custom surrogate)'}
-METHODS={'ppo':'PPO','a2c':'A2C','ddqn':'Double DQN'}
-COLORS={'ppo':'#2563eb','a2c':'#d97706','ddqn':'#059669'}
+METHODS={'ppo':'PPO','a2c':'A2C','ddqn':'Double DQN','sac':'Discrete SAC','grpo':'GRPO','gfn':'GFlowNet-TB'}
+COLORS={'ppo':'#2563eb','a2c':'#d97706','ddqn':'#059669','sac':'#7c3aed','grpo':'#db2777','gfn':'#0891b2'}
+DEFAULT_METHODS=['ppo','a2c','ddqn']   # experiments launched before --methods existed
+
+
+def experiment_methods(experiment):
+    return experiment.get('methods',DEFAULT_METHODS)
 
 
 def seed_ci(values):
@@ -23,7 +28,7 @@ def seed_ci(values):
 
 
 def load_runs(directory,experiment):
-    expected={(b,m,int(s)) for b in experiment['backends'] for m in METHODS for s in experiment['seeds']}
+    expected={(b,m,int(s)) for b in experiment['backends'] for m in experiment_methods(experiment) for s in experiment['seeds']}
     runs={}
     for path in sorted(directory.glob('*/summary.json')):
         row=json.loads(path.read_text())
@@ -89,7 +94,7 @@ def plot_curves(directory,runs,experiment):
     backends=experiment['backends']
     fig,axes=plt.subplots(len(backends),2,figsize=(12,4.1*len(backends)),squeeze=False,layout='constrained')
     for row,b in enumerate(backends):
-        for m in METHODS:
+        for m in experiment_methods(experiment):
             subset=[r for r in runs if r['_key'][:2]==(b,m)]
             series=[]
             for r in subset:
@@ -143,7 +148,7 @@ def write_html(directory,groups,per_seed,experiment,extras):
     document+=f'<p>{len(per_seed)} completed runs; {experiment["steps_per_run"]:,} transitions per run; {len(experiment["seeds"])} independent training seeds per method/environment. Up to {experiment["jobs"]} concurrent processes, one BLAS/OpenMP thread each. Whole experiment wall time: <strong>{experiment["total_wall_seconds"]:.1f} seconds</strong>.</p>'
     document+=''.join(sections)
     if extras.get('stochastic'):
-        document+='<h2>Supplementary stochastic policy evaluation</h2><p>The same final PPO/A2C checkpoints are also evaluated by sampling their categorical action distributions. This is a fixed-checkpoint diagnostic; it does not replace the deterministic primary table or reselect checkpoints. Environment test seeds are the same; action RNG is separately seeded for each episode.</p>'
+        document+='<h2>Supplementary stochastic policy evaluation</h2><p>The same final categorical-policy checkpoints (every method except Double DQN) are also evaluated by sampling their categorical action distributions. This is a fixed-checkpoint diagnostic; it does not replace the deterministic primary table or reselect checkpoints. Environment test seeds are the same; action RNG is separately seeded for each episode.</p>'
         document+=table(extras['stochastic'],[('environment','Environment'),('method','Method'),('training_seeds','Train seeds'),('mean_return','Mean sampled-policy return'),('mean_success_rate','Landing fraction'),('seed_bootstrap_ci95_low','95% CI low'),('seed_bootstrap_ci95_high','95% CI high')])
     if extras.get('parallel_timing'):
         timing=extras['parallel_timing']
@@ -170,7 +175,10 @@ def write_html(directory,groups,per_seed,experiment,extras):
 <li>Training seconds include rollout simulation and optimizer updates, and exclude validation, final evaluation and file-writing outside the timed training block. Transitions/s equals training transitions divided by those seconds. Run wall seconds include evaluation and checkpoint/report work after environment initialization.</li>
 <li>All learners use NumPy on CPU. Rust accelerates the custom simulator only. The Rust model differs from Box2D in physical dynamics, contact handling and task difficulty; this is not an equivalent-engine speed comparison.</li>
 <li>Methods receive equal transition budgets, not equal optimizer steps or compute. PPO/A2C use one 64-unit tanh hidden layer and rewards scaled by 0.01 for optimization; Double DQN uses two 64-unit ReLU layers and unscaled rewards. Reported rewards are always raw. The comparison concerns these implementations and settings, not algorithms in isolation.</li>
-<li>Hyperparameters were fixed for these runs. A finite budget does not establish convergence or a universal winner. Six concurrent processes contend for CPU resources; per-run times are measured under this workload. Any optional matched serial/parallel measurement is a separate fixed-workload pair; per-run contended timings alone are not a serial speedup estimate.</li></ul>'''
+'''
+    if set(experiment_methods(experiment))&{'sac','grpo','gfn'}:
+        document+='''<li>Discrete SAC uses a one-layer tanh actor, twin two-layer ReLU critics and unscaled rewards. GRPO uses the one-layer tanh policy without a critic, with group-normalised episode returns from groups of episodes sharing one start seed. GFlowNet-TB uses the one-layer tanh forward policy and a scalar log Z, and samples trajectories in proportion to an exponentiated, clipped return instead of maximising return.</li>'''
+    document+='''<li>Hyperparameters were fixed for these runs. A finite budget does not establish convergence or a universal winner. Six concurrent processes contend for CPU resources; per-run times are measured under this workload. Any optional matched serial/parallel measurement is a separate fixed-workload pair; per-run contended timings alone are not a serial speedup estimate.</li></ul>'''
     document+='<h2>Every training seed</h2>'+details+'<h2>Machine and execution metadata</h2><pre>'+metadata+'</pre>'
     document+='<p class="muted">Machine-readable companions: benchmark_summary.csv, per_seed.csv, summary.json. Raw run directories contain configurations, test episode CSVs, progress JSONL, training JSONL and final checkpoints.</p></main></html>'
     (directory/'report.html').write_text(document,encoding='utf-8')
@@ -181,6 +189,7 @@ def main():
     parser.add_argument('directory',nargs='?',type=Path,default=Path('lunar_bench/results/benchmark_500k'))
     args=parser.parse_args()
     experiment=json.loads((args.directory/'experiment.json').read_text())
+    methods=experiment_methods(experiment)
     try:runs=load_runs(args.directory,experiment)
     except ValueError as error:parser.error(str(error))
     groups,per_seed=aggregate(runs)
@@ -198,7 +207,7 @@ def main():
     if stochastic:
         extras['stochastic']=[]
         for backend in experiment['backends']:
-            for method in ['ppo','a2c']:
+            for method in [m for m in methods if m!='ddqn']:
                 subset=[r for r in stochastic if r['config']['backend']==backend and r['config']['method']==method]
                 if not subset:continue
                 values=[r['test']['mean_return'] for r in subset]

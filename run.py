@@ -1,4 +1,5 @@
-"""Actual local equal-transition PPO/A2C/DoubleDQN training and evaluation."""
+"""Actual local equal-transition training and evaluation: PPO, A2C, Double DQN,
+Discrete SAC, GRPO and GFlowNet-TB."""
 import os
 for key in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS'):
     os.environ[key]='1'
@@ -11,6 +12,14 @@ import platform
 import time
 import numpy as np
 from .agents import PPO,A2C,DoubleDQN,gae
+from .agents_extra import DiscreteSAC,GRPO,GFlowNetTB
+
+AGENTS={'ppo':PPO,'a2c':A2C,'ddqn':DoubleDQN,'sac':DiscreteSAC,'grpo':GRPO,'gfn':GFlowNetTB}
+NETWORKS={'ppo':'single tanh hidden layer, 64 units','a2c':'single tanh hidden layer, 64 units',
+          'ddqn':'two ReLU hidden layers, 64 units each',
+          'sac':'actor: single tanh hidden layer, 64 units; twin critics: two ReLU hidden layers, 64 units each',
+          'grpo':'policy: single tanh hidden layer, 64 units; no critic',
+          'gfn':'forward policy: single tanh hidden layer, 64 units; scalar log Z'}
 
 
 def make_env(backend):
@@ -44,9 +53,52 @@ def evaluate(model,method,backend,episodes,start_seed):
                 seconds=time.perf_counter()-began,episodes=rows)
 
 
+def grpo_group(model,native_batch,envs,rng,count,budget):
+    """Collect one GRPO group of `count` episodes that all start from one environment seed, then update.
+
+    Only real policy transitions are counted. The Rust batch API steps every member, so a
+    member whose episode has ended runs a padding episode whose transitions are discarded
+    and never counted. An episode cut off by the remaining budget makes the group
+    incomplete, and the model then skips it.
+    """
+    seed=int(rng.integers(1000000000))
+    if native_batch is not None:obs=np.stack([native_batch.reset_at(i,seed) for i in range(count)])
+    else:obs=np.stack([e.reset(seed=seed)[0] for e in envs])
+    active=np.ones(count,dtype=bool);steps=0
+    episodes=[dict(obs=[],actions=[],logs=[],return_=0.,success=False,complete=False) for _ in range(count)]
+    while active.any() and steps<budget:
+        idx=np.flatnonzero(active)[:budget-steps]
+        actions,logs=model.act(obs[idx])
+        if native_batch is not None:
+            for i in np.flatnonzero(~native_batch.ready):native_batch.reset_at(int(i),seed)
+            padded=np.zeros(count,dtype=np.int64);padded[idx]=actions
+            batch=native_batch.step(padded)
+            next_obs,rewards,terms,truncs=(x[idx] for x in batch)
+            infos=[native_batch.info(int(i)) for i in idx]
+        else:
+            transitions=[envs[i].step(int(action)) for i,action in zip(idx,actions)]
+            next_obs=np.stack([t[0] for t in transitions])
+            rewards=np.asarray([t[1] for t in transitions])
+            terms=np.asarray([t[2] for t in transitions],dtype=bool)
+            truncs=np.asarray([t[3] for t in transitions],dtype=bool)
+            infos=[t[4] for t in transitions]
+        for j,i in enumerate(idx):
+            e=episodes[i]
+            e['obs'].append(obs[i].copy());e['actions'].append(int(actions[j]));e['logs'].append(float(logs[j]))
+            e['return_']+=float(rewards[j])
+            if terms[j] or truncs[j]:
+                active[i]=False;e['complete']=True
+                e['success']=bool(infos[j].get('success',terms[j] and rewards[j]>=99))
+            else:obs[i]=next_obs[j]
+        steps+=len(idx)
+    metrics=dict(model.update_group(episodes),group_seed=seed)
+    completed=[dict(return_=e['return_'],length=len(e['actions']),success=e['success']) for e in episodes if e['complete']]
+    return steps,completed,metrics
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--method',choices=['ppo','a2c','ddqn'],required=True)
+    p.add_argument('--method',choices=list(AGENTS),required=True)
     p.add_argument('--backend',choices=['gym','rust'],default='gym')
     p.add_argument('--seed',type=int,default=0)
     p.add_argument('--steps',type=int,default=300000)
@@ -59,15 +111,18 @@ def main():
         p.error('Positive counts and steps divisible by envs required')
     if a.output.exists(): p.error('Use a fresh output directory')
     a.output.mkdir(parents=True)
-    model=({'ppo':PPO,'a2c':A2C,'ddqn':DoubleDQN}[a.method])(seed=a.seed,lr=3e-4)
+    model=AGENTS[a.method](seed=a.seed,lr=3e-4,**({'group_size':a.envs} if a.method=='grpo' else {}))
+    # New methods live in agents_extra.py so the published runs keep their agents.py source hash.
+    source='agents.py' if a.method in ('ppo','a2c','ddqn') else 'agents_extra.py'
     cfg={**vars(a),'output':str(a.output),'environment':'LunarLander-v3' if a.backend=='gym' else 'RustLander-v0',
          'python':platform.python_version(),'numpy':np.__version__,'threads_per_process':1,
          'training_seed_range':'[0,1000000000)','validation_seed_start':1000000000,
          'test_seed_start':2000000000,'checkpoint_selection':'final fixed-budget checkpoint',
-         'reward_scale_for_optimization':0.01 if a.method!='ddqn' else 1.0,
-         'network':'two ReLU hidden layers, 64 units each' if a.method=='ddqn' else 'single tanh hidden layer, 64 units',
+         'reward_scale_for_optimization':0.01 if a.method in ('ppo','a2c') else 1.0,
+         'network':NETWORKS[a.method],
          'model_config':model.config,
-         'algorithm_source_sha256':hashlib.sha256(Path(__file__).with_name('agents.py').read_bytes()).hexdigest()}
+         'algorithm_source_sha256':hashlib.sha256(Path(__file__).with_name(source).read_bytes()).hexdigest()}
+    if source!='agents.py':cfg['algorithm_source']=source
     if a.backend=='gym':
         import gymnasium,Box2D
         cfg.update(gymnasium=gymnasium.__version__,box2d=Box2D.__version__)
@@ -87,6 +142,7 @@ def main():
         obs=np.stack([e.reset(seed=int(rng.integers(1000000000)))[0] for e in envs])
     total=0;seconds=0.;cpu_seconds=0.;updates=0;next_report=a.report_every
     episode_scores=np.zeros(a.envs);episode_lengths=np.zeros(a.envs,dtype=int)
+    traj_obs=[[] for _ in range(a.envs)];traj_actions=[[] for _ in range(a.envs)]   # GFlowNet episodes
     wall_start=time.perf_counter()
     log=(a.output/'training.jsonl').open('w')
     progress=(a.output/'progress.jsonl').open('w')
@@ -101,12 +157,19 @@ def main():
         while total<a.steps:
             began=time.perf_counter();cpu_began=time.process_time()
             rollout=[];completed=[]
-            length=min(128 if a.method=='ppo' else 32 if a.method=='a2c' else 32,(a.steps-total)//a.envs)
+            length=0 if a.method=='grpo' else min(128 if a.method in ('ppo','gfn') else 32,(a.steps-total)//a.envs)
             metrics={}
+            if a.method=='grpo':
+                steps,completed,metrics=grpo_group(model,native_batch,envs,rng,a.envs,a.steps-total)
+                total+=steps;updates+=0 if metrics['skipped'] else 1
             for _ in range(length):
                 if a.method=='ddqn':
                     epsilon=max(.05,1.-.95*total/(a.steps*.6))
                     actions=model.act(obs,epsilon=epsilon)
+                elif a.method in ('sac','gfn'):
+                    actions=model.act(obs)[0]
+                    if a.method=='gfn':
+                        for i in range(a.envs):traj_obs[i].append(obs[i].copy());traj_actions[i].append(int(actions[i]))
                 else: actions,logs,values=model.act(obs)
                 if native_batch is not None:
                     next_obs,rewards,terms,truncs=native_batch.step(actions)
@@ -123,12 +186,15 @@ def main():
                 for i in np.flatnonzero(ends):
                     completed.append(dict(return_=float(episode_scores[i]),length=int(episode_lengths[i]),
                                           success=bool(infos[i].get('success',terms[i] and rewards[i]>=99))))
+                    if a.method=='gfn':
+                        model.add_trajectory(traj_obs[i],traj_actions[i],float(episode_scores[i]))
+                        traj_obs[i]=[];traj_actions[i]=[]
                     episode_scores[i]=0.;episode_lengths[i]=0
-                if a.method=='ddqn':
+                if a.method in ('ddqn','sac'):
                     model.observe(obs,actions,rewards,next_obs,terms)
                     if total>=5000:
                         for _ in range(max(1,a.envs//4)): metrics=model.update(batch_size=64);updates+=1
-                else:
+                elif a.method in ('ppo','a2c'):
                     next_values=model.forward(next_obs)[3]
                     rollout.append((obs.copy(),actions,logs,values,rewards*.01,next_values,terms,ends))
                 for i in np.flatnonzero(ends):
@@ -136,11 +202,14 @@ def main():
                     next_obs[i]=(native_batch.reset_at(int(i),seed) if native_batch is not None
                                  else envs[i].reset(seed=seed)[0])
                 obs=next_obs;total+=a.envs
-            if a.method!='ddqn':
+            if a.method in ('ppo','a2c'):
                 states,acts,logs,vals,rews,nvals,terms,ends=map(np.stack,zip(*rollout))
                 adv,ret=gae(rews,vals,nvals,terms,ends)
                 metrics=model.update(states.reshape(-1,8),acts.ravel(),logs.ravel(),adv.ravel(),ret.ravel())
                 updates+=1
+            elif a.method=='gfn':
+                # Episodes still running when the budget ends are discarded; their steps still count.
+                metrics=model.update();updates+=0 if metrics['skipped'] else 1
             seconds+=time.perf_counter()-began;cpu_seconds+=time.process_time()-cpu_began
             log.write(json.dumps(dict(steps=total,training_seconds=seconds,updates=updates,metrics=metrics,episodes=completed))+'\n');log.flush()
             if total>=next_report or total==a.steps:

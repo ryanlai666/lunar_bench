@@ -1,0 +1,136 @@
+{
+  "passed": true,
+  "expected_runs": 18,
+  "completed_checked": 18,
+  "pending": [],
+  "errors": [],
+  "corrections": [],
+  "runs": [
+    {
+      "run": "gym_sac_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_sac_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_sac_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_grpo_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 16184,
+      "update_calls": 362,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_grpo_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 16372,
+      "update_calls": 386,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_grpo_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 16212,
+      "update_calls": 336,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_gfn_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_gfn_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "gym_gfn_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_sac_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_sac_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_sac_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 123750,
+      "update_calls": 123750,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_grpo_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 16612,
+      "update_calls": 505,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_grpo_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 16528,
+      "update_calls": 472,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_grpo_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 16568,
+      "update_calls": 487,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_gfn_seed0",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_gfn_seed1",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    },
+    {
+      "run": "rust_gfn_seed2",
+      "trained_steps": 500000,
+      "optimizer_updates": 15648,
+      "update_calls": 489,
+      "finite_checkpoint": true
+    }
+  ]
+}

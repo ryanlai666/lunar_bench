@@ -11,7 +11,10 @@ from pathlib import Path
 import time
 import numpy as np
 from .agents import PPO,A2C
+from .agents_extra import DiscreteSAC,GRPO,GFlowNetTB
 from .run import make_env
+
+POLICIES={'ppo':PPO,'a2c':A2C,'sac':DiscreteSAC,'grpo':GRPO,'gfn':GFlowNetTB}   # categorical actors
 
 
 def evaluate_run(run,episodes=100):
@@ -23,8 +26,8 @@ def evaluate_run(run,episodes=100):
             raise ValueError(f'{run}: existing diagnostic has different episode count')
         return dict(run=run.name,mean_return=saved['test']['mean_return'],cached=True)
     cfg=json.loads((run/'config.json').read_text())
-    if cfg['method'] not in ('ppo','a2c'):raise ValueError('Only categorical actor policies supported')
-    model=({'ppo':PPO,'a2c':A2C}[cfg['method']]).load(run/'final.npz')
+    if cfg['method'] not in POLICIES:raise ValueError('Only categorical actor policies supported')
+    model=POLICIES[cfg['method']].load(run/'final.npz')
     env=make_env(cfg['backend']);rows=[];began=time.perf_counter()
     try:
         for seed in range(2000000000,2000000000+episodes):
@@ -68,11 +71,12 @@ def main():
     if not 1<=args.jobs<=6 or args.episodes<1:p.error('jobs must be 1..6, episodes positive')
     experiment=json.loads((args.directory/'experiment.json').read_text())
     selected=args.backends or experiment['backends']
+    methods=[m for m in experiment.get('methods',['ppo','a2c','ddqn']) if m in POLICIES]
     all_runs=[args.directory/f'{b}_{m}_seed{s}' for b in selected
-              for m in ('ppo','a2c') for s in experiment['seeds']]
+              for m in methods for s in experiment['seeds']]
     incomplete=[str(r) for r in all_runs if not (r/'summary.json').exists()]
     if incomplete:p.error('Wait for primary training/evaluation to complete before this diagnostic: '+', '.join(incomplete))
-    targets=[r for r in all_runs if json.loads((r/'config.json').read_text())['method'] in ('ppo','a2c')]
+    targets=[r for r in all_runs if json.loads((r/'config.json').read_text())['method'] in POLICIES]
     with ProcessPoolExecutor(max_workers=args.jobs) as pool:
         futures=[pool.submit(evaluate_run,r,args.episodes) for r in targets]
         for f in as_completed(futures):print(json.dumps(f.result()),flush=True)

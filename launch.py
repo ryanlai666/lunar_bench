@@ -15,16 +15,17 @@ def main():
     p.add_argument('--jobs',type=int,default=6)
     p.add_argument('--seeds',type=int,nargs='+',default=[0,1,2])
     p.add_argument('--backends',nargs='+',choices=['gym','rust'],default=['gym','rust'])
+    p.add_argument('--methods',nargs='+',choices=['ppo','a2c','ddqn','sac','grpo','gfn'],default=['ppo','a2c','ddqn'])
     p.add_argument('--output',type=Path,default=Path('lunar_bench/results/benchmark_500k'))
     a=p.parse_args()
     if a.output.exists():p.error('Output exists; choose a fresh experiment directory')
     a.output.mkdir(parents=True)
     started=time.perf_counter()
-    config=dict(steps_per_run=a.steps,jobs=a.jobs,seeds=a.seeds,backends=a.backends,
+    config=dict(steps_per_run=a.steps,jobs=a.jobs,seeds=a.seeds,backends=a.backends,methods=a.methods,
                 logical_cpus=os.cpu_count(),platform=platform.platform(),processor=platform.processor(),
                 python=sys.version,threads_per_process=1)
     (a.output/'experiment.json').write_text(json.dumps(config,indent=2))
-    tasks=[(backend,method,seed) for backend in a.backends for seed in a.seeds for method in ['ppo','a2c','ddqn']]
+    tasks=[(backend,method,seed) for backend in a.backends for seed in a.seeds for method in a.methods]
     def run(task):
         backend,method,seed=task
         name=f'{backend}_{method}_seed{seed}'

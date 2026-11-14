@@ -17,8 +17,10 @@ from pathlib import Path
 import numpy as np
 from PIL import Image,ImageDraw
 from .agents import PPO,A2C,DoubleDQN
+from .agents_extra import DiscreteSAC,GRPO,GFlowNetTB
 
-METHODS={'ppo':PPO,'a2c':A2C,'ddqn':DoubleDQN}
+METHODS={'ppo':PPO,'a2c':A2C,'ddqn':DoubleDQN,'sac':DiscreteSAC,'grpo':GRPO,'gfn':GFlowNetTB}
+DEFAULT_METHODS=('ppo','a2c','ddqn')
 EPISODE_SEED=2000000000
 TRAINING_SEED=0
 MAX_STEPS=1000
@@ -94,16 +96,17 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--directory',type=Path,default=Path('lunar_bench/results/benchmark_500k'))
     p.add_argument('--output',type=Path)
+    p.add_argument('--methods',nargs='+',choices=sorted(METHODS),default=list(DEFAULT_METHODS))
     a=p.parse_args()
     output=a.output or a.directory/'previews'
     if output.exists():p.error('Use a fresh output directory to preserve previous previews')
-    for method in METHODS:
+    for method in a.methods:
         run=a.directory/f'gym_{method}_seed0'
         for filename in ['final.npz','summary.json','config.json']:
             if not (run/filename).is_file():p.error(f'Wait for completed benchmark: missing {run/filename}')
     use_mp4=importlib.util.find_spec('imageio_ffmpeg') is not None and importlib.util.find_spec('imageio') is not None
     output.mkdir(parents=True)
-    results=[render_one(method,a.directory/f'gym_{method}_seed0',output,use_mp4) for method in METHODS]
+    results=[render_one(method,a.directory/f'gym_{method}_seed0',output,use_mp4) for method in a.methods]
     (output/'index.json').write_text(json.dumps(dict(episode_seed=EPISODE_SEED,training_seed=TRAINING_SEED,format='mp4' if use_mp4 else 'gif',previews=results),indent=2))
 
 if __name__=='__main__':main()

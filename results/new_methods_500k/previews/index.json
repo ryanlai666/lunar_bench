@@ -1,0 +1,31 @@
+{
+  "episode_seed": 2000000000,
+  "training_seed": 0,
+  "format": "gif",
+  "previews": [
+    {
+      "method": "sac",
+      "return_": -63.00812811750821,
+      "length": 1000,
+      "success": false,
+      "artifact": "lunar_bench\\results\\new_methods_500k\\previews\\gym_sac_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    },
+    {
+      "method": "grpo",
+      "return_": -41.74172509822169,
+      "length": 1000,
+      "success": false,
+      "artifact": "lunar_bench\\results\\new_methods_500k\\previews\\gym_grpo_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    },
+    {
+      "method": "gfn",
+      "return_": -60.66261637024272,
+      "length": 1000,
+      "success": false,
+      "artifact": "lunar_bench\\results\\new_methods_500k\\previews\\gym_gfn_seed0_episode2000000000.gif",
+      "matches_recorded_test_episode": true
+    }
+  ]
+}

@@ -1,0 +1,697 @@
+{
+  "experiment": {
+    "steps_per_run": 500000,
+    "jobs": 6,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "backends": [
+      "gym",
+      "rust"
+    ],
+    "methods": [
+      "sac",
+      "grpo",
+      "gfn"
+    ],
+    "logical_cpus": 20,
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+    "threads_per_process": 1,
+    "total_wall_seconds": 1520.9242190999794,
+    "completed": 18,
+    "failures": 0
+  },
+  "groups": [
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "Discrete SAC",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": -40.158269177261495,
+      "return_seed_std": 27.59792072334431,
+      "seed_bootstrap_ci95_low": -72.01272190579664,
+      "seed_bootstrap_ci95_high": -23.446435091812535,
+      "mean_success_rate": 0.0033333333333333335,
+      "mean_training_seconds": 393.11781910061836,
+      "mean_training_cpu_seconds": 385.203125,
+      "mean_transitions_per_second": 1277.9394457940698,
+      "mean_run_wall_seconds": 420.6943906333472
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GRPO",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": 48.86664365429351,
+      "return_seed_std": 91.73139328909434,
+      "seed_bootstrap_ci95_low": -5.2618892687941266,
+      "seed_bootstrap_ci95_high": 154.78029158109783,
+      "mean_success_rate": 0.23333333333333336,
+      "mean_training_seconds": 62.830405366820436,
+      "mean_training_cpu_seconds": 61.8125,
+      "mean_transitions_per_second": 8045.601494061721,
+      "mean_run_wall_seconds": 76.64044753333049
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GFlowNet-TB",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": -15.678329833181778,
+      "return_seed_std": 93.50841526582303,
+      "seed_bootstrap_ci95_low": -104.30262981891032,
+      "seed_bootstrap_ci95_high": 82.04846061111026,
+      "mean_success_rate": 0.21,
+      "mean_training_seconds": 626.1301295332863,
+      "mean_training_cpu_seconds": 615.2291666666666,
+      "mean_transitions_per_second": 1045.0361485031817,
+      "mean_run_wall_seconds": 640.5399840333363
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "Discrete SAC",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": 130.69295426905776,
+      "return_seed_std": 47.8208383921303,
+      "seed_bootstrap_ci95_low": 83.9784459153749,
+      "seed_bootstrap_ci95_high": 179.54822045627984,
+      "mean_success_rate": 0.8333333333333334,
+      "mean_training_seconds": 402.23563223315676,
+      "mean_training_cpu_seconds": 396.2916666666667,
+      "mean_transitions_per_second": 1247.3518840770141,
+      "mean_run_wall_seconds": 415.8388031333452
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GRPO",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": -29.04806598343576,
+      "return_seed_std": 0.41177061895099365,
+      "seed_bootstrap_ci95_low": -29.421712064277376,
+      "seed_bootstrap_ci95_high": -28.60659318877384,
+      "mean_success_rate": 0.0,
+      "mean_training_seconds": 41.09740646654973,
+      "mean_training_cpu_seconds": 40.385416666666664,
+      "mean_transitions_per_second": 12319.660725959771,
+      "mean_run_wall_seconds": 69.54414403333794
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GFlowNet-TB",
+      "training_seeds": 3,
+      "steps_per_seed": 500000,
+      "test_episodes_per_seed": 100,
+      "mean_return": -52.5729146779639,
+      "return_seed_std": 2.4556374371684297,
+      "seed_bootstrap_ci95_low": -55.38182918509469,
+      "seed_bootstrap_ci95_high": -50.832816706448796,
+      "mean_success_rate": 0.0,
+      "mean_training_seconds": 731.9085054662428,
+      "mean_training_cpu_seconds": 722.4791666666666,
+      "mean_transitions_per_second": 690.9393217404705,
+      "mean_run_wall_seconds": 747.5556309999956
+    }
+  ],
+  "per_seed": [
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GFlowNet-TB",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -24.780820291745272,
+      "success_rate": 0.14,
+      "mean_episode_length": 918.68,
+      "training_seconds": 749.9358494996268,
+      "training_cpu_seconds": 737.03125,
+      "transitions_per_second": 666.7236942114591,
+      "wall_seconds": 770.7354827999952
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GFlowNet-TB",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": 82.04846061111026,
+      "success_rate": 0.48,
+      "mean_episode_length": 670.21,
+      "training_seconds": 863.8450903996418,
+      "training_cpu_seconds": 849.5,
+      "transitions_per_second": 578.8074801336016,
+      "wall_seconds": 881.4962131000066
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GFlowNet-TB",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -104.30262981891032,
+      "success_rate": 0.01,
+      "mean_episode_length": 88.34,
+      "training_seconds": 264.6094487005903,
+      "training_cpu_seconds": 259.15625,
+      "transitions_per_second": 1889.5772711644843,
+      "wall_seconds": 269.38825620000716
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GRPO",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -5.2618892687941266,
+      "success_rate": 0.04,
+      "mean_episode_length": 988.79,
+      "training_seconds": 57.87908999976935,
+      "training_cpu_seconds": 57.015625,
+      "transitions_per_second": 8638.698362430932,
+      "wall_seconds": 73.19209699999192
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GRPO",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": 154.78029158109783,
+      "success_rate": 0.66,
+      "mean_episode_length": 575.12,
+      "training_seconds": 58.1595525003213,
+      "training_cpu_seconds": 57.234375,
+      "transitions_per_second": 8597.040013284795,
+      "wall_seconds": 67.9550212000031
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "GRPO",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -2.9184713494231627,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 72.45257360037067,
+      "training_cpu_seconds": 71.1875,
+      "transitions_per_second": 6901.066106469432,
+      "wall_seconds": 88.77422439999646
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "Discrete SAC",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -72.01272190579664,
+      "success_rate": 0.0,
+      "mean_episode_length": 875.72,
+      "training_seconds": 384.64479760066024,
+      "training_cpu_seconds": 377.203125,
+      "transitions_per_second": 1299.900591711894,
+      "wall_seconds": 409.7948500000057
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "Discrete SAC",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -25.01565053417532,
+      "success_rate": 0.01,
+      "mean_episode_length": 981.15,
+      "training_seconds": 364.548150300252,
+      "training_cpu_seconds": 357.328125,
+      "transitions_per_second": 1371.5609298475003,
+      "wall_seconds": 392.29336940002395
+    },
+    {
+      "backend": "gym",
+      "environment": "Gymnasium LunarLander-v3 (Box2D)",
+      "method": "Discrete SAC",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -23.446435091812535,
+      "success_rate": 0.0,
+      "mean_episode_length": 973.31,
+      "training_seconds": 430.16050940094283,
+      "training_cpu_seconds": 421.078125,
+      "transitions_per_second": 1162.356815822815,
+      "wall_seconds": 459.994952500012
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GFlowNet-TB",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -50.832816706448796,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 798.0472927996016,
+      "training_cpu_seconds": 787.21875,
+      "transitions_per_second": 626.5292853083527,
+      "wall_seconds": 819.1053863999841
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GFlowNet-TB",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -51.50409814234823,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 770.8206651996879,
+      "training_cpu_seconds": 761.390625,
+      "transitions_per_second": 648.6593089333828,
+      "wall_seconds": 786.1277941000008
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GFlowNet-TB",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -55.38182918509469,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 626.8575583994389,
+      "training_cpu_seconds": 618.828125,
+      "transitions_per_second": 797.6293709796761,
+      "wall_seconds": 637.433712500002
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GRPO",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -29.42171206427738,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 46.70691749980324,
+      "training_cpu_seconds": 45.890625,
+      "transitions_per_second": 10705.052415460865,
+      "wall_seconds": 78.76518919999944
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GRPO",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -28.60659318877384,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 41.081524199747946,
+      "training_cpu_seconds": 40.34375,
+      "transitions_per_second": 12170.921350651048,
+      "wall_seconds": 70.20516840001801
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "GRPO",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": -29.115892697256058,
+      "success_rate": 0.0,
+      "mean_episode_length": 1000.0,
+      "training_seconds": 35.503777700098,
+      "training_cpu_seconds": 34.921875,
+      "transitions_per_second": 14083.008411767401,
+      "wall_seconds": 59.66207449999638
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "Discrete SAC",
+      "training_seed": 0,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": 83.9784459153749,
+      "success_rate": 0.68,
+      "mean_episode_length": 511.22,
+      "training_seconds": 427.92223089915933,
+      "training_cpu_seconds": 420.8125,
+      "transitions_per_second": 1168.4366080943944,
+      "wall_seconds": 446.53060050000204
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "Discrete SAC",
+      "training_seed": 1,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": 128.55219643551857,
+      "success_rate": 0.82,
+      "mean_episode_length": 397.9,
+      "training_seconds": 407.41796649969183,
+      "training_cpu_seconds": 401.734375,
+      "transitions_per_second": 1227.2409199224114,
+      "wall_seconds": 422.23146730000735
+    },
+    {
+      "backend": "rust",
+      "environment": "RustLander-v0 (custom surrogate)",
+      "method": "Discrete SAC",
+      "training_seed": 2,
+      "trained_steps": 500000,
+      "test_episodes": 100,
+      "mean_return": 179.5482204562798,
+      "success_rate": 1.0,
+      "mean_episode_length": 165.09,
+      "training_seconds": 371.3666993006191,
+      "training_cpu_seconds": 366.328125,
+      "transitions_per_second": 1346.3781242142368,
+      "wall_seconds": 378.75434160002624
+    }
+  ],
+  "extras": {
+    "baselines": {
+      "gym": {
+        "random": {
+          "mean_return": -189.60665758641582,
+          "success_rate": 0.0,
+          "episodes": 100
+        },
+        "heuristic": {
+          "mean_return": 234.69639339005136,
+          "success_rate": 0.92,
+          "episodes": 100
+        }
+      },
+      "rust": {
+        "random": {
+          "mean_return": -153.42769119672477,
+          "success_rate": 0.0,
+          "episodes": 100
+        },
+        "heuristic": {
+          "mean_return": 190.79187500122936,
+          "success_rate": 1.0,
+          "episodes": 100
+        }
+      }
+    },
+    "throughput": {
+      "note": "Non-equivalent workloads: Gymnasium LunarLander-v3 uses Box2D collision/leg dynamics; RustLander-v0 is a custom flat-ground point-body surrogate. No language-only or faithful-port speedup claim.",
+      "timing_scope": "Step calls, reward checksum, explicit episode resets, and close; excludes action generation, initial creation/reset, and warmup. Rust batch includes ended-index scan and per-environment resets. Rendering disabled.",
+      "load_note": "Run after all training workers have exited; OS/background load is uncontrolled.",
+      "batch_size": 128,
+      "records": [
+        {
+          "steps": 100000,
+          "seconds": 10.841036199999508,
+          "steps_per_second": 9224.21050489662,
+          "episodes": 1057,
+          "return_checksum": -203846.09188678532,
+          "mode": "gymnasium_box2d_scalar",
+          "repeat": 0,
+          "seed": 100000
+        },
+        {
+          "steps": 100000,
+          "seconds": 9.0603007000027,
+          "steps_per_second": 11037.161272138595,
+          "episodes": 1048,
+          "return_checksum": -160086.4818009045,
+          "mode": "rust_surrogate_scalar",
+          "repeat": 0,
+          "seed": 100000
+        },
+        {
+          "steps": 100096,
+          "seconds": 0.09667080000508577,
+          "steps_per_second": 1035431.5883879521,
+          "episodes": 993,
+          "return_checksum": -156404.6966896057,
+          "mode": "rust_surrogate_batch",
+          "repeat": 0,
+          "seed": 100000
+        },
+        {
+          "steps": 100000,
+          "seconds": 9.61139479999838,
+          "steps_per_second": 10404.31717569409,
+          "episodes": 1057,
+          "return_checksum": -160059.39695263095,
+          "mode": "rust_surrogate_scalar",
+          "repeat": 1,
+          "seed": 200000
+        },
+        {
+          "steps": 100096,
+          "seconds": 0.15934759999800008,
+          "steps_per_second": 628161.3278220461,
+          "episodes": 992,
+          "return_checksum": -154252.38078975677,
+          "mode": "rust_surrogate_batch",
+          "repeat": 1,
+          "seed": 200000
+        },
+        {
+          "steps": 100000,
+          "seconds": 15.804044799995609,
+          "steps_per_second": 6327.494085566486,
+          "episodes": 1082,
+          "return_checksum": -197018.19076110495,
+          "mode": "gymnasium_box2d_scalar",
+          "repeat": 1,
+          "seed": 200000
+        },
+        {
+          "steps": 100096,
+          "seconds": 0.1695746000041254,
+          "steps_per_second": 590277.0815768687,
+          "episodes": 990,
+          "return_checksum": -153171.34424328804,
+          "mode": "rust_surrogate_batch",
+          "repeat": 2,
+          "seed": 300000
+        },
+        {
+          "steps": 100000,
+          "seconds": 18.055704099999275,
+          "steps_per_second": 5538.415973487515,
+          "episodes": 1093,
+          "return_checksum": -200003.99395938055,
+          "mode": "gymnasium_box2d_scalar",
+          "repeat": 2,
+          "seed": 300000
+        },
+        {
+          "steps": 100000,
+          "seconds": 12.046097900005407,
+          "steps_per_second": 8301.44340765777,
+          "episodes": 1047,
+          "return_checksum": -161239.1329536084,
+          "mode": "rust_surrogate_scalar",
+          "repeat": 2,
+          "seed": 300000
+        },
+        {
+          "steps": 100000,
+          "seconds": 17.862255099986214,
+          "steps_per_second": 5598.3972594858515,
+          "episodes": 1088,
+          "return_checksum": -194706.8041850858,
+          "mode": "gymnasium_box2d_scalar",
+          "repeat": 3,
+          "seed": 400000
+        },
+        {
+          "steps": 100000,
+          "seconds": 14.174359399999958,
+          "steps_per_second": 7054.992552256033,
+          "episodes": 1055,
+          "return_checksum": -161335.53990914114,
+          "mode": "rust_surrogate_scalar",
+          "repeat": 3,
+          "seed": 400000
+        },
+        {
+          "steps": 100096,
+          "seconds": 0.16130259999772534,
+          "steps_per_second": 620547.9638977397,
+          "episodes": 1005,
+          "return_checksum": -157374.90167427063,
+          "mode": "rust_surrogate_batch",
+          "repeat": 3,
+          "seed": 400000
+        },
+        {
+          "steps": 100000,
+          "seconds": 14.683448099996895,
+          "steps_per_second": 6810.389447967685,
+          "episodes": 1051,
+          "return_checksum": -159779.8920631539,
+          "mode": "rust_surrogate_scalar",
+          "repeat": 4,
+          "seed": 500000
+        },
+        {
+          "steps": 100096,
+          "seconds": 0.1718033000070136,
+          "steps_per_second": 582619.7750329227,
+          "episodes": 994,
+          "return_checksum": -155364.5717329979,
+          "mode": "rust_surrogate_batch",
+          "repeat": 4,
+          "seed": 500000
+        },
+        {
+          "steps": 100000,
+          "seconds": 17.90704319998622,
+          "steps_per_second": 5584.394859787737,
+          "episodes": 1048,
+          "return_checksum": -194464.18606057236,
+          "mode": "gymnasium_box2d_scalar",
+          "repeat": 4,
+          "seed": 500000
+        }
+      ],
+      "summary": {
+        "gymnasium_box2d_scalar": {
+          "mean_steps_per_second": 6454.582536644843,
+          "median_steps_per_second": 5598.3972594858515,
+          "std_steps_per_second": 1582.4531233298242,
+          "min_steps_per_second": 5538.415973487515,
+          "max_steps_per_second": 9224.21050489662
+        },
+        "rust_surrogate_scalar": {
+          "mean_steps_per_second": 8721.660771142833,
+          "median_steps_per_second": 8301.44340765777,
+          "std_steps_per_second": 1923.55132509522,
+          "min_steps_per_second": 6810.389447967685,
+          "max_steps_per_second": 11037.161272138595
+        },
+        "rust_surrogate_batch": {
+          "mean_steps_per_second": 691407.5473435058,
+          "median_steps_per_second": 620547.9638977397,
+          "std_steps_per_second": 193284.67100166742,
+          "min_steps_per_second": 582619.7750329227,
+          "max_steps_per_second": 1035431.5883879521
+        }
+      },
+      "machine": {
+        "platform": "Windows-11-10.0.26200-SP0",
+        "machine": "AMD64",
+        "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+        "logical_cpu_count": 20,
+        "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+        "python_executable": "C:\\ProgramData\\anaconda3\\python.exe",
+        "numpy": "2.1.3",
+        "gymnasium": "1.2.3",
+        "thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        }
+      },
+      "rust_library_sha256": "b91301da18b76c674db1eabd49d0e9851f892c8e8e130f7c128acc240b0bc734"
+    },
+    "parallel_timing": {
+      "steps_per_run": 32768,
+      "runs_per_mode": 6,
+      "serial_seconds": 153.30002930000774,
+      "parallel_seconds": 32.4076281000016,
+      "measured_speedup": 4.7303686905738145,
+      "parameters_identical": true,
+      "note": "One matched timing pair, CPU NumPy/Gymnasium; includes startup and evaluation; no claim of universal scaling. Sequential measured first, cache/order effects possible."
+    },
+    "stochastic": [
+      {
+        "environment": "Gymnasium LunarLander-v3 (Box2D)",
+        "method": "Discrete SAC",
+        "training_seeds": 3,
+        "mean_return": -29.2698106421919,
+        "mean_success_rate": 0.043333333333333335,
+        "seed_bootstrap_ci95_low": -64.95192244317064,
+        "seed_bootstrap_ci95_high": -1.6496655216390061
+      },
+      {
+        "environment": "Gymnasium LunarLander-v3 (Box2D)",
+        "method": "GRPO",
+        "training_seeds": 3,
+        "mean_return": 34.99608028828419,
+        "mean_success_rate": 0.0,
+        "seed_bootstrap_ci95_low": 33.82349792802695,
+        "seed_bootstrap_ci95_high": 36.314579574030404
+      },
+      {
+        "environment": "Gymnasium LunarLander-v3 (Box2D)",
+        "method": "GFlowNet-TB",
+        "training_seeds": 3,
+        "mean_return": -44.762049428569604,
+        "mean_success_rate": 0.0,
+        "seed_bootstrap_ci95_low": -134.12117530738524,
+        "seed_bootstrap_ci95_high": 11.671469799676915
+      },
+      {
+        "environment": "RustLander-v0 (custom surrogate)",
+        "method": "Discrete SAC",
+        "training_seeds": 3,
+        "mean_return": 127.00068730572859,
+        "mean_success_rate": 0.8233333333333333,
+        "seed_bootstrap_ci95_low": 87.05785613570362,
+        "seed_bootstrap_ci95_high": 178.9183996448107
+      },
+      {
+        "environment": "RustLander-v0 (custom surrogate)",
+        "method": "GRPO",
+        "training_seeds": 3,
+        "mean_return": 167.70212609503417,
+        "mean_success_rate": 0.9166666666666666,
+        "seed_bootstrap_ci95_low": 152.44857879674063,
+        "seed_bootstrap_ci95_high": 180.1682063189149
+      },
+      {
+        "environment": "RustLander-v0 (custom surrogate)",
+        "method": "GFlowNet-TB",
+        "training_seeds": 3,
+        "mean_return": 63.22382100582743,
+        "mean_success_rate": 0.8966666666666666,
+        "seed_bootstrap_ci95_low": 55.46250422341749,
+        "seed_bootstrap_ci95_high": 75.49420005170629
+      }
+    ]
+  },
+  "interval": "95% percentile bootstrap over independent training-seed means, 20000 draws; not pooled episode uncertainty",
+  "note": "RustLander-v0 is a custom surrogate, not equivalent to Gymnasium Box2D; raw scores are not cross-environment comparable."
+}
